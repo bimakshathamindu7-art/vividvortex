@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VividVortex — Premium Multi-Utility Suite</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<!-- QRCode.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --glass-bg: rgba(255,255,255,0.42);
+  --glass-border: rgba(255,255,255,0.70);
+  --glass-shadow: 0 8px 40px rgba(160,100,220,0.13), 0 2px 16px rgba(80,160,255,0.10);
+  --glass-blur: blur(18px);
+  --accent-pink: #f472b6;
+  --accent-blue: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-lime: #a3e635;
+  --accent-grad: linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
+  --text-dark: #2d1f4e;
+  --text-mid: #5b4b7e;
+  --text-light: #9488b5;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(.4,0,.2,1);
+  --nav-w: 240px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text-dark);
+  background: #f0eaff;
+}
+
+/* ============================================================
+   ANIMATED MESH GRADIENT BACKGROUND
+   ============================================================ */
+.mesh-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background: #f8f0ff;
+  overflow: hidden;
+}
+.mesh-bg::before, .mesh-bg::after, .mesh-blob {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.72;
+  animation: blobFloat 14s ease-in-out infinite alternate;
+}
+.mesh-bg::before {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #fbc2eb 0%, #f9a8d4 60%, transparent 100%);
+  top: -120px; left: -100px;
+  animation-duration: 16s;
+}
+.mesh-bg::after {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, #a5f3fc 0%, #60a5fa 60%, transparent 100%);
+  bottom: -100px; right: -80px;
+  animation-duration: 18s; animation-direction: alternate-reverse;
+}
+.mesh-blob {
+  width: 460px; height: 460px;
+  background: radial-gradient(circle, #ddd6fe 0%, #a78bfa 60%, transparent 100%);
+  top: 40%; left: 42%; transform: translate(-50%,-50%);
+  animation-duration: 20s; animation-delay: -5s;
+}
+.mesh-blob2 {
+  content: '';
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  background: radial-gradient(circle, #d9f99d 0%, #a3e635 60%, transparent 100%);
+  bottom: 15%; left: 5%;
+  animation: blobFloat 22s ease-in-out infinite alternate-reverse;
+}
+@keyframes blobFloat {
+  0%   { transform: translate(0,0) scale(1); }
+  33%  { transform: translate(40px,-30px) scale(1.07); }
+  66%  { transform: translate(-20px,40px) scale(0.95); }
+  100% { transform: translate(30px,20px) scale(1.04); }
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.app-shell {
+  position: relative; z-index: 1;
+  display: flex; min-height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR NAV
+   ============================================================ */
+.sidebar {
+  width: var(--nav-w);
+  min-height: 100vh;
+  background: rgba(255,255,255,0.50);
+  border-right: 1.5px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 4px 0 32px rgba(160,100,220,0.10);
+  display: flex; flex-direction: column;
+  padding: 0 0 24px;
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; z-index: 100;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+.sidebar-brand {
+  padding: 28px 20px 18px;
+  border-bottom: 1.5px solid rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+}
+.brand-logo {
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.38rem; font-weight: 700;
+  background: var(--accent-grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 10px;
+}
+.brand-logo .logo-icon {
+  width: 36px; height: 36px;
+  background: var(--accent-grad);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(167,139,250,0.4);
+}
+.brand-logo .logo-icon i { color: #fff; font-size: 1rem; -webkit-text-fill-color: #fff; }
+.brand-sub { font-size: 0.68rem; color: var(--text-light); font-family: 'Poppins', sans-serif; margin-top: 2px; font-weight: 400; -webkit-text-fill-color: var(--text-light); }
+
+.nav-section-label {
+  font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--text-light);
+  padding: 10px 20px 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 18px;
+  margin: 2px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  font-size: 0.82rem; font-weight: 500; color: var(--text-mid);
+  user-select: none; position: relative;
+}
+.nav-item:hover {
+  background: rgba(255,255,255,0.70);
+  color: var(--text-dark);
+  transform: translateX(3px);
+  box-shadow: 0 2px 12px rgba(167,139,250,0.15);
+}
+.nav-item.active {
+  background: rgba(255,255,255,0.85);
+  color: var(--text-dark);
+  box-shadow: 0 4px 18px rgba(167,139,250,0.22);
+  font-weight: 600;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: -10px; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 60%; border-radius: 2px;
+  background: var(--accent-grad);
+}
+.nav-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; flex-shrink: 0;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+.nav-item.active .nav-icon { background: var(--accent-grad); box-shadow: 0 3px 10px rgba(167,139,250,0.4); }
+.nav-item.active .nav-icon i { color: #fff; }
+.nav-item:not(.active) .nav-icon { background: rgba(167,139,250,0.12); }
+.nav-item:not(.active) .nav-icon i { background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Mobile nav toggle */
+.mob-nav-btn {
+  display: none; position: fixed; top: 16px; left: 16px; z-index: 300;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  box-shadow: 0 4px 18px rgba(160,100,220,0.18);
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.1rem; color: var(--text-dark);
+  transition: var(--transition);
+}
+.mob-overlay {
+  display: none; position: fixed; inset: 0; z-index: 90;
+  background: rgba(100,60,180,0.15); backdrop-filter: blur(2px);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main-content {
+  flex: 1; padding: 40px 40px 60px;
+  min-width: 0;
+}
+
+/* ============================================================
+   TOOL PANE
+   ============================================================ */
+.tool-pane { display: none; animation: paneIn 0.35s cubic-bezier(.4,0,.2,1); }
+.tool-pane.active { display: block; }
+@keyframes paneIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tool-header { margin-bottom: 32px; }
+.tool-title {
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.9rem; font-weight: 700;
+  background: var(--accent-grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+.tool-subtitle { font-size: 0.88rem; color: var(--text-light); margin-top: 5px; font-weight: 400; }
+
+/* ============================================================
+   GLASS CARD
+   ============================================================ */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: 28px;
+  transition: box-shadow var(--transition);
+}
+.glass-card:hover { box-shadow: 0 12px 50px rgba(160,100,220,0.18), 0 3px 20px rgba(80,160,255,0.12); }
+
+.glass-card-sm {
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(160,100,220,0.09);
+  padding: 18px 20px;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 24px; border-radius: var(--radius-sm);
+  font-family: 'Poppins', sans-serif; font-size: 0.84rem; font-weight: 600;
+  cursor: pointer; border: none; transition: all var(--transition);
+  text-decoration: none; user-select: none; white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent-grad);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(167,139,250,0.40);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.55); filter: brightness(1.05); }
+.btn-primary:active { transform: translateY(0); }
+.btn-glass {
+  background: rgba(255,255,255,0.70);
+  color: var(--text-dark);
+  border: 1.5px solid rgba(255,255,255,0.85);
+  box-shadow: 0 2px 12px rgba(160,100,220,0.10);
+}
+.btn-glass:hover { background: rgba(255,255,255,0.90); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(160,100,220,0.16); }
+.btn-danger {
+  background: linear-gradient(135deg,#f87171,#fb923c);
+  color: #fff; box-shadow: 0 4px 18px rgba(248,113,113,0.40);
+}
+.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(248,113,113,0.55); }
+.btn-success {
+  background: linear-gradient(135deg,#34d399,#a3e635);
+  color: #fff; box-shadow: 0 4px 18px rgba(52,211,153,0.40);
+}
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(52,211,153,0.55); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+/* ============================================================
+   INPUTS / CONTROLS
+   ============================================================ */
+.form-label {
+  display: block; font-size: 0.8rem; font-weight: 600;
+  color: var(--text-mid); margin-bottom: 7px; letter-spacing: 0.3px;
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%; padding: 11px 16px;
+  background: rgba(255,255,255,0.65);
+  border: 1.5px solid rgba(255,255,255,0.80);
+  border-radius: var(--radius-sm);
+  font-family: 'Poppins', sans-serif; font-size: 0.85rem;
+  color: var(--text-dark);
+  outline: none; transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--accent-purple);
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.18);
+}
+.form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+.range-wrap { position: relative; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; border-radius: 3px;
+  background: rgba(167,139,250,0.22);
+  outline: none; cursor: pointer;
+  transition: var(--transition);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent-grad);
+  box-shadow: 0 2px 8px rgba(167,139,250,0.5);
+  cursor: pointer; transition: box-shadow var(--transition), transform var(--transition);
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); box-shadow: 0 4px 14px rgba(167,139,250,0.7); }
+
+.toggle-row { display: flex; align-items: center; gap: 10px; }
+.toggle {
+  position: relative; width: 44px; height: 24px; flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; inset: 0; border-radius: 24px;
+  background: rgba(167,139,250,0.20);
+  cursor: pointer; transition: background var(--transition);
+  border: 1.5px solid rgba(255,255,255,0.7);
+}
+.toggle-slider::before {
+  content: ''; position: absolute;
+  width: 18px; height: 18px; border-radius: 50%;
+  left: 2px; top: 50%; transform: translateY(-50%);
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(100,60,180,0.2);
+  transition: transform var(--transition);
+}
+.toggle input:checked + .toggle-slider { background: var(--accent-grad); border-color: transparent; }
+.toggle input:checked + .toggle-slider::before { transform: translate(20px,-50%); }
+.toggle-label { font-size: 0.82rem; color: var(--text-mid); font-weight: 500; }
+
+/* ============================================================
+   STAT BADGES
+   ============================================================ */
+.stat-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.72);
+  border: 1.5px solid rgba(255,255,255,0.85);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-mid);
+  box-shadow: 0 2px 10px rgba(160,100,220,0.10);
+}
+.stat-chip strong { color: var(--text-dark); font-size: 0.9rem; }
+
+/* ============================================================
+   GRID HELPERS
+   ============================================================ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.flex-row { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.flex-col { display: flex; flex-direction: column; gap: 14px; }
+.mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-center { text-align: center; }
+
+/* ============================================================
+   UPLOAD ZONE
+   ============================================================ */
+.upload-zone {
+  border: 2px dashed rgba(167,139,250,0.45);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
+  text-align: center;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--accent-purple);
+  background: rgba(255,255,255,0.55);
+}
+.upload-zone input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.upload-icon { font-size: 2.4rem; margin-bottom: 12px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.upload-zone h3 { font-family: 'Comfortaa', cursive; font-size: 1rem; color: var(--text-dark); margin-bottom: 5px; }
+.upload-zone p { font-size: 0.78rem; color: var(--text-light); }
+
+/* ============================================================
+   PASSWORD DISPLAY
+   ============================================================ */
+.password-display {
+  background: rgba(255,255,255,0.70);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 1.5px; word-break: break-all;
+  min-height: 60px; display: flex; align-items: center;
+  box-shadow: inset 0 2px 8px rgba(160,100,220,0.06);
+}
+
+/* Strength bar */
+.strength-bar-wrap { margin-top: 10px; }
+.strength-bar-bg { height: 6px; background: rgba(167,139,250,0.15); border-radius: 3px; overflow: hidden; }
+.strength-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s cubic-bezier(.4,0,.2,1), background 0.5s; }
+.strength-label { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; }
+
+/* ============================================================
+   COLOR SWATCH
+   ============================================================ */
+.color-swatch-preview {
+  width: 100%; height: 90px; border-radius: var(--radius-md);
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  transition: background var(--transition);
+}
+.color-picker-input {
+  width: 54px; height: 54px; border: none; padding: 0; cursor: pointer;
+  border-radius: 50%; overflow: hidden; outline: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  background: none;
+}
+.color-picker-input::-webkit-color-swatch-wrapper { padding: 0; }
+.color-picker-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+
+/* ============================================================
+   AGE RESULT
+   ============================================================ */
+.age-result-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+  margin-top: 24px;
+}
+.age-card {
+  background: rgba(255,255,255,0.70);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 20px 14px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(167,139,250,0.12);
+}
+.age-card .num {
+  font-family: 'Comfortaa', cursive; font-size: 2.2rem; font-weight: 700;
+  background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.age-card .unit { font-size: 0.75rem; color: var(--text-light); font-weight: 500; margin-top: 2px; }
+.age-extra { margin-top: 16px; font-size: 0.82rem; color: var(--text-mid); text-align: center; }
+
+/* ============================================================
+   SCREEN RECORDER
+   ============================================================ */
+.recorder-status {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 18px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.60);
+  font-size: 0.83rem; font-weight: 600; color: var(--text-mid);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+}
+.rec-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #94a3b8; flex-shrink: 0;
+  transition: background var(--transition);
+}
+.rec-dot.recording { background: #f87171; animation: blink 1s infinite; }
+.rec-dot.done { background: #34d399; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.recorder-preview {
+  width: 100%; border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.06); min-height: 180px;
+  object-fit: contain; display: none;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* ============================================================
+   QR OUTPUT
+   ============================================================ */
+#qr-output { display: flex; justify-content: center; margin-top: 20px; }
+#qr-output canvas, #qr-output img { border-radius: 12px; box-shadow: 0 6px 28px rgba(167,139,250,0.22); }
+
+/* ============================================================
+   YT THUMBNAIL
+   ============================================================ */
+.yt-thumb-wrap {
+  display: none; flex-direction: column; align-items: center; gap: 16px; margin-top: 24px;
+}
+.yt-thumb-wrap img {
+  max-width: 100%; border-radius: var(--radius-md);
+  box-shadow: 0 8px 36px rgba(167,139,250,0.22);
+  border: 2px solid rgba(255,255,255,0.8);
+}
+
+/* ============================================================
+   RESULT PREVIEW (image compressor)
+   ============================================================ */
+.img-preview-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;
+}
+.img-preview-box {
+  border-radius: var(--radius-md); overflow: hidden;
+  border: 1.5px solid rgba(255,255,255,0.8);
+  box-shadow: 0 4px 20px rgba(160,100,220,0.10);
+  background: rgba(255,255,255,0.5);
+}
+.img-preview-box img, .img-preview-box canvas {
+  width: 100%; display: block; max-height: 220px; object-fit: contain;
+}
+.img-preview-label {
+  padding: 10px 14px;
+  font-size: 0.75rem; font-weight: 600; color: var(--text-mid);
+  background: rgba(255,255,255,0.55);
+  border-top: 1px solid rgba(255,255,255,0.7);
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+/* ============================================================
+   TOOLTIP / COPY FEEDBACK
+   ============================================================ */
+.copy-toast {
+  position: fixed; bottom: 32px; right: 32px; z-index: 999;
+  background: rgba(255,255,255,0.90);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-radius: var(--radius-sm);
+  padding: 12px 22px;
+  font-size: 0.82rem; font-weight: 600; color: var(--text-dark);
+  box-shadow: 0 8px 32px rgba(167,139,250,0.25);
+  display: flex; align-items: center; gap: 8px;
+  animation: toastIn 0.3s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.55); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .img-preview-row { grid-template-columns: 1fr; }
+  .age-result-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .sidebar { position: fixed; left: 0; top: 0; height: 100vh; z-index: 200; transform: translateX(-100%); }
+  .sidebar.mob-open { transform: translateX(0); box-shadow: 8px 0 40px rgba(100,60,180,0.2); }
+  .mob-nav-btn { display: flex; }
+  .mob-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+  .mob-overlay.show { opacity: 1; pointer-events: auto; }
+  .main-content { padding: 72px 18px 48px; }
+  .tool-title { font-size: 1.5rem; }
+  .age-result-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .glass-card { padding: 20px 16px; }
+}
+@media (max-width: 420px) {
+  .age-result-grid { grid-template-columns: 1fr; }
+  .age-card .num { font-size: 1.7rem; }
+}
+
+/* extra detail tweaks */
+.section-divider {
+  height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,0.25),transparent);
+  margin: 22px 0;
+}
+.pill-badge {
+  display: inline-block; padding: 3px 11px; border-radius: 100px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+}
+.pill-badge.new { background: linear-gradient(135deg,#f472b6,#a78bfa); color: #fff; }
+</style>
+</head>
+
+<body>
+<!-- Animated Background -->
+<div class="mesh-bg">
+  <div class="mesh-blob"></div>
+  <div class="mesh-blob2"></div>
+</div>
+
+<!-- Mobile Overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile Toggle -->
+<button class="mob-nav-btn" id="mobNavBtn" onclick="toggleSidebar()" aria-label="Toggle navigation">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- App Shell -->
+<div class="app-shell">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <div class="logo-icon"><i class="fa-solid fa-vortex" style="font-size:.9rem"></i></div>
+        <div>
+          VividVortex
+          <div class="brand-sub">Premium Utility Suite</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Tools</div>
+
+    <div class="nav-item active" data-tool="img-compressor" onclick="switchTool('img-compressor',this)">
+      <div class="nav-icon"><i class="fa-solid fa-image"></i></div>
+      Image Compressor
+    </div>
+    <div class="nav-item" data-tool="password-gen" onclick="switchTool('password-gen',this)">
+      <div class="nav-icon"><i class="fa-solid fa-key"></i></div>
+      Password Generator
+    </div>
+    <div class="nav-item" data-tool="word-counter" onclick="switchTool('word-counter',this)">
+      <div class="nav-icon"><i class="fa-solid fa-align-left"></i></div>
+      Word Counter
+    </div>
+    <div class="nav-item" data-tool="qr-gen" onclick="switchTool('qr-gen',this)">
+      <div class="nav-icon"><i class="fa-solid fa-qrcode"></i></div>
+      QR Generator
+    </div>
+    <div class="nav-item" data-tool="color-conv" onclick="switchTool('color-conv',this)">
+      <div class="nav-icon"><i class="fa-solid fa-palette"></i></div>
+      Color Converter
+    </div>
+    <div class="nav-item" data-tool="age-calc" onclick="switchTool('age-calc',this)">
+      <div class="nav-icon"><i class="fa-solid fa-cake-candles"></i></div>
+      Age Calculator
+    </div>
+    <div class="nav-item" data-tool="screen-rec" onclick="switchTool('screen-rec',this)">
+      <div class="nav-icon"><i class="fa-solid fa-circle-dot"></i></div>
+      Screen Recorder
+      <span class="pill-badge new" style="margin-left:auto;">NEW</span>
+    </div>
+    <div class="nav-item" data-tool="yt-thumb" onclick="switchTool('yt-thumb',this)">
+      <div class="nav-icon"><i class="fa-brands fa-youtube"></i></div>
+      YT Thumbnail
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ====================================================
+         1. IMAGE COMPRESSOR / RESIZER
+         ==================================================== -->
+    <div class="tool-pane active" id="tool-img-compressor">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-image" style="font-size:1.5rem;margin-right:10px"></i>Image Compressor & Resizer</div>
+        <div class="tool-subtitle">Upload · Resize · Compress · Download — 100% client-side, private & instant</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="upload-zone" id="imgDropZone">
+          <input type="file" id="imgFileInput" accept="image/png,image/jpeg,image/webp" />
+          <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h3>Drop your image here</h3>
+          <p>Supports JPG, PNG, WebP — click or drag & drop</p>
+        </div>
+
+        <div id="imgControls" style="display:none">
+          <div class="section-divider"></div>
+          <div class="grid-2 mt-4">
+            <div>
+              <label class="form-label">Width (px)</label>
+              <input class="form-input" type="number" id="imgWidth" placeholder="e.g. 800" min="1" />
+            </div>
+            <div>
+              <label class="form-label">Height (px)</label>
+              <input class="form-input" type="number" id="imgHeight" placeholder="e.g. 600" min="1" />
+            </div>
+          </div>
+          <div class="toggle-row mt-4">
+            <label class="toggle">
+              <input type="checkbox" id="imgLockRatio" checked />
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Lock aspect ratio</span>
+          </div>
+
+          <div class="mt-6">
+            <label class="form-label">Quality: <span id="qualityVal">82</span>%</label>
+            <input type="range" id="imgQuality" min="10" max="100" value="82" />
+          </div>
+
+          <div class="flex-row mt-6">
+            <select class="form-select" id="imgFormat" style="max-width:160px">
+              <option value="image/jpeg">JPG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WebP</option>
+            </select>
+            <button class="btn btn-primary" onclick="processImage()"><i class="fa-solid fa-compress"></i> Compress & Preview</button>
+          </div>
+
+          <div class="img-preview-row" id="imgPreviewRow" style="display:none">
+            <div class="img-preview-box">
+              <img id="imgOriginalPreview" alt="Original" />
+              <div class="img-preview-label">
+                <span>Original</span>
+                <span id="origSize" class="stat-chip"></span>
+              </div>
+            </div>
+            <div class="img-preview-box">
+              <canvas id="imgCanvas" style="max-height:220px;object-fit:contain;width:100%;display:block"></canvas>
+              <div class="img-preview-label">
+                <span>Compressed</span>
+                <span id="compSize" class="stat-chip"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-row mt-6" id="imgDownloadRow" style="display:none">
+            <button class="btn btn-success" onclick="downloadImage()"><i class="fa-solid fa-download"></i> Download Image</button>
+            <button class="btn btn-glass" onclick="resetImageTool()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         2. PASSWORD GENERATOR
+         ==================================================== -->
+    <div class="tool-pane" id="tool-password-gen">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-key" style="font-size:1.5rem;margin-right:10px"></i>Strong Password Generator</div>
+        <div class="tool-subtitle">Cryptographically secure — all generation happens in your browser</div>
+      </div>
+
+      <div class="glass-card">
+        <label class="form-label">Password Length: <strong id="pwLenVal">20</strong></label>
+        <input type="range" id="pwLen" min="6" max="128" value="20" style="margin-bottom:20px" oninput="document.getElementById('pwLenVal').textContent=this.value" />
+
+        <div class="flex-col" style="gap:12px;margin-bottom:20px">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="pwUpper" checked /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Uppercase Letters (A-Z)</span>
+          </div>
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="pwLower" checked /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Lowercase Letters (a-z)</span>
+          </div>
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="pwNums" checked /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Numbers (0-9)</span>
+          </div>
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="pwSymbols" checked /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Symbols (!@#$%^&*)</span>
+          </div>
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="pwNoAmb" /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Exclude Ambiguous (0, O, I, l)</span>
+          </div>
+        </div>
+
+        <div class="password-display" id="pwOutput">Click "Generate" to create a password</div>
+
+        <div class="strength-bar-wrap" id="strengthWrap" style="display:none">
+          <div class="strength-bar-bg"><div class="strength-bar-fill" id="strengthFill"></div></div>
+          <div class="strength-label" id="strengthLabel"></div>
+        </div>
+
+        <div class="flex-row mt-6">
+          <button class="btn btn-primary" onclick="generatePassword()"><i class="fa-solid fa-shuffle"></i> Generate</button>
+          <button class="btn btn-glass" onclick="copyPassword()"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button class="btn btn-glass" onclick="generatePassword()"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+        </div>
+
+        <div id="pwHistory" style="display:none;margin-top:24px">
+          <div class="section-divider"></div>
+          <div class="form-label" style="margin-bottom:10px">Recent Passwords</div>
+          <div id="pwHistoryList" class="flex-col" style="gap:8px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         3. WORD & CHARACTER COUNTER
+         ==================================================== -->
+    <div class="tool-pane" id="tool-word-counter">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-align-left" style="font-size:1.5rem;margin-right:10px"></i>Word & Character Counter</div>
+        <div class="tool-subtitle">Real-time analysis — paste or type anything below</div>
+      </div>
+
+      <div class="glass-card">
+        <textarea class="form-textarea" id="wcText" rows="10" placeholder="Start typing or paste your text here…" oninput="updateWordCount()" style="min-height:200px"></textarea>
+
+        <div class="flex-row mt-6" style="flex-wrap:wrap;gap:10px">
+          <div class="stat-chip"><i class="fa-solid fa-font" style="color:var(--accent-purple)"></i> Words: <strong id="wcWords">0</strong></div>
+          <div class="stat-chip"><i class="fa-solid fa-text-width" style="color:var(--accent-blue)"></i> Chars: <strong id="wcChars">0</strong></div>
+          <div class="stat-chip"><i class="fa-solid fa-text-width" style="color:var(--accent-pink)"></i> Chars (no space): <strong id="wcCharsNoSp">0</strong></div>
+          <div class="stat-chip"><i class="fa-solid fa-grip-lines" style="color:var(--accent-lime)"></i> Lines: <strong id="wcLines">0</strong></div>
+          <div class="stat-chip"><i class="fa-solid fa-paragraph" style="color:var(--accent-purple)"></i> Paragraphs: <strong id="wcParas">0</strong></div>
+          <div class="stat-chip"><i class="fa-solid fa-clock" style="color:var(--accent-blue)"></i> Read time: <strong id="wcReadTime">0 sec</strong></div>
+        </div>
+
+        <div class="section-divider" style="margin:20px 0"></div>
+
+        <div class="flex-row" style="align-items:center;gap:10px">
+          <label class="form-label" style="margin:0;white-space:nowrap">Find keywords:</label>
+          <input class="form-input" id="wcKeyword" placeholder="Type keyword…" oninput="updateWordCount()" style="max-width:240px" />
+          <div class="stat-chip" id="kwFreq" style="display:none">Occurrences: <strong id="kwCount">0</strong></div>
+        </div>
+
+        <div class="flex-row mt-4">
+          <button class="btn btn-glass" onclick="document.getElementById('wcText').value='';updateWordCount()">
+            <i class="fa-solid fa-trash"></i> Clear
+          </button>
+          <button class="btn btn-glass" onclick="copyToClipboard(document.getElementById('wcText').value)">
+            <i class="fa-solid fa-copy"></i> Copy Text
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         4. QR CODE GENERATOR
+         ==================================================== -->
+    <div class="tool-pane" id="tool-qr-gen">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-qrcode" style="font-size:1.5rem;margin-right:10px"></i>QR Code Generator</div>
+        <div class="tool-subtitle">Convert any URL or text into a scannable, downloadable QR code</div>
+      </div>
+
+      <div class="glass-card">
+        <label class="form-label">Text or URL</label>
+        <input class="form-input" id="qrInput" placeholder="https://example.com or any text…" />
+
+        <div class="grid-2 mt-4">
+          <div>
+            <label class="form-label">QR Size (px)</label>
+            <input class="form-input" type="number" id="qrSize" value="256" min="64" max="1024" />
+          </div>
+          <div>
+            <label class="form-label">Foreground Color</label>
+            <div class="flex-row" style="align-items:center;gap:10px">
+              <input type="color" id="qrColor" value="#2d1f4e" class="color-picker-input" style="width:44px;height:44px" />
+              <input class="form-input" id="qrColorHex" value="#2d1f4e" style="font-family:monospace" oninput="document.getElementById('qrColor').value=this.value" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-row mt-6">
+          <button class="btn btn-primary" onclick="generateQR()"><i class="fa-solid fa-qrcode"></i> Generate QR</button>
+          <button class="btn btn-success" id="qrDownloadBtn" style="display:none" onclick="downloadQR()"><i class="fa-solid fa-download"></i> Download PNG</button>
+        </div>
+
+        <div id="qr-output"></div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         5. HEX <-> RGB COLOR CONVERTER
+         ==================================================== -->
+    <div class="tool-pane" id="tool-color-conv">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-palette" style="font-size:1.5rem;margin-right:10px"></i>HEX ↔ RGB Color Converter</div>
+        <div class="tool-subtitle">Bi-directional color conversion with live preview & HSL output</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="color-swatch-preview" id="colorSwatch" style="background:#a78bfa;margin-bottom:22px"></div>
+
+        <div class="grid-2">
+          <div>
+            <label class="form-label">HEX Color</label>
+            <div class="flex-row" style="align-items:center;gap:10px">
+              <input type="color" id="colorPickerHex" value="#a78bfa" class="color-picker-input" oninput="onColorPickerChange(this.value)" />
+              <input class="form-input" id="hexInput" value="#a78bfa" placeholder="#rrggbb" oninput="onHexInput(this.value)" style="font-family:monospace;font-weight:600" />
+            </div>
+          </div>
+          <div>
+            <label class="form-label">RGB Color</label>
+            <div class="flex-row" style="gap:8px">
+              <input class="form-input" id="rgbR" type="number" min="0" max="255" value="167" placeholder="R" oninput="onRGBInput()" style="text-align:center" />
+              <input class="form-input" id="rgbG" type="number" min="0" max="255" value="139" placeholder="G" oninput="onRGBInput()" style="text-align:center" />
+              <input class="form-input" id="rgbB" type="number" min="0" max="255" value="250" placeholder="B" oninput="onRGBInput()" style="text-align:center" />
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card-sm mt-6">
+          <div class="grid-3" style="gap:16px">
+            <div>
+              <div class="form-label">HEX</div>
+              <div id="outHex" style="font-family:monospace;font-weight:700;font-size:1rem;color:var(--text-dark)">#a78bfa</div>
+              <button class="btn btn-glass" style="margin-top:6px;padding:6px 12px;font-size:0.72rem" onclick="copyToClipboard(document.getElementById('outHex').textContent)"><i class="fa-solid fa-copy"></i></button>
+            </div>
+            <div>
+              <div class="form-label">RGB</div>
+              <div id="outRGB" style="font-family:monospace;font-weight:700;font-size:1rem;color:var(--text-dark)">rgb(167,139,250)</div>
+              <button class="btn btn-glass" style="margin-top:6px;padding:6px 12px;font-size:0.72rem" onclick="copyToClipboard(document.getElementById('outRGB').textContent)"><i class="fa-solid fa-copy"></i></button>
+            </div>
+            <div>
+              <div class="form-label">HSL</div>
+              <div id="outHSL" style="font-family:monospace;font-weight:700;font-size:1rem;color:var(--text-dark)">hsl(259°,90%,76%)</div>
+              <button class="btn btn-glass" style="margin-top:6px;padding:6px 12px;font-size:0.72rem" onclick="copyToClipboard(document.getElementById('outHSL').textContent)"><i class="fa-solid fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved swatches -->
+        <div class="mt-6">
+          <div class="flex-row" style="align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div class="form-label" style="margin:0">Saved Colors</div>
+            <button class="btn btn-glass" style="padding:7px 14px;font-size:0.75rem" onclick="saveColor()"><i class="fa-solid fa-plus"></i> Save Current</button>
+          </div>
+          <div id="savedSwatches" class="flex-row" style="flex-wrap:wrap;gap:10px;min-height:40px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         6. AGE CALCULATOR
+         ==================================================== -->
+    <div class="tool-pane" id="tool-age-calc">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-cake-candles" style="font-size:1.5rem;margin-right:10px"></i>Age Calculator</div>
+        <div class="tool-subtitle">Exact age in years, months, days — plus fun extra stats</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="grid-2">
+          <div>
+            <label class="form-label">Date of Birth</label>
+            <input class="form-input" type="date" id="dobInput" />
+          </div>
+          <div>
+            <label class="form-label">Calculate Age As Of</label>
+            <input class="form-input" type="date" id="refDateInput" />
+          </div>
+        </div>
+
+        <div class="flex-row mt-6">
+          <button class="btn btn-primary" onclick="calculateAge()"><i class="fa-solid fa-calculator"></i> Calculate Age</button>
+          <button class="btn btn-glass" onclick="resetAge()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        </div>
+
+        <div id="ageResult" style="display:none">
+          <div class="age-result-grid">
+            <div class="age-card"><div class="num" id="ageYears">0</div><div class="unit">Years</div></div>
+            <div class="age-card"><div class="num" id="ageMonths">0</div><div class="unit">Months</div></div>
+            <div class="age-card"><div class="num" id="ageDays">0</div><div class="unit">Days</div></div>
+          </div>
+          <div class="glass-card-sm mt-4">
+            <div class="grid-2" style="gap:12px">
+              <div class="stat-chip"><i class="fa-solid fa-clock" style="color:var(--accent-purple)"></i> Total Days: <strong id="ageTotal"></strong></div>
+              <div class="stat-chip"><i class="fa-solid fa-clock" style="color:var(--accent-blue)"></i> Total Hours: <strong id="ageTotalH"></strong></div>
+              <div class="stat-chip"><i class="fa-solid fa-calendar" style="color:var(--accent-pink)"></i> Next Birthday: <strong id="nextBirthday"></strong></div>
+              <div class="stat-chip"><i class="fa-solid fa-heart" style="color:var(--accent-lime)"></i> Day of Week Born: <strong id="dobWeekday"></strong></div>
+            </div>
+          </div>
+          <div class="age-extra" id="ageExtra"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         7. SCREEN RECORDER
+         ==================================================== -->
+    <div class="tool-pane" id="tool-screen-rec">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-circle-dot" style="font-size:1.5rem;margin-right:10px"></i>Screen Recorder</div>
+        <div class="tool-subtitle">Capture your screen with audio — powered by native MediaRecorder API</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="recorder-status" id="recStatus">
+          <div class="rec-dot" id="recDot"></div>
+          <span id="recStatusText">Ready to record — click Start Recording to begin</span>
+          <span id="recTimer" style="margin-left:auto;font-variant-numeric:tabular-nums"></span>
+        </div>
+
+        <div class="grid-2 mb-4">
+          <div>
+            <label class="form-label">Video Quality</label>
+            <select class="form-select" id="recQuality">
+              <option value="2500000">High (2.5 Mbps)</option>
+              <option value="1500000" selected>Medium (1.5 Mbps)</option>
+              <option value="750000">Low (750 Kbps)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Audio Source</label>
+            <select class="form-select" id="recAudio">
+              <option value="system">System Audio (if available)</option>
+              <option value="mic">Microphone</option>
+              <option value="none">No Audio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toggle-row mb-4">
+          <label class="toggle"><input type="checkbox" id="recCountdown" checked /><span class="toggle-slider"></span></label>
+          <span class="toggle-label">3-second countdown before recording</span>
+        </div>
+
+        <div class="flex-row">
+          <button class="btn btn-primary" id="btnStartRec" onclick="startRecording()"><i class="fa-solid fa-circle"></i> Start Recording</button>
+          <button class="btn btn-danger" id="btnStopRec" style="display:none" onclick="stopRecording()"><i class="fa-solid fa-square"></i> Stop Recording</button>
+          <button class="btn btn-success" id="btnDownloadRec" style="display:none" onclick="downloadRecording()"><i class="fa-solid fa-download"></i> Download Video</button>
+          <button class="btn btn-glass" id="btnDiscardRec" style="display:none" onclick="discardRecording()"><i class="fa-solid fa-trash"></i> Discard</button>
+        </div>
+
+        <video id="recPreview" class="recorder-preview" controls style="margin-top:20px"></video>
+
+        <div class="glass-card-sm mt-4" style="background:rgba(255,248,230,0.6);border-color:rgba(251,191,36,0.3)">
+          <p style="font-size:0.78rem;color:#92650a;line-height:1.6">
+            <i class="fa-solid fa-circle-info" style="color:#f59e0b;margin-right:6px"></i>
+            <strong>How it works:</strong> Your browser will ask for permission to share your screen. You can choose a specific window, application, or entire screen. Recording is entirely local — no data is uploaded anywhere.
+            System audio capture requires Chrome/Edge on desktop. Firefox records microphone only.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         8. YOUTUBE THUMBNAIL DOWNLOADER
+         ==================================================== -->
+    <div class="tool-pane" id="tool-yt-thumb">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-brands fa-youtube" style="font-size:1.5rem;margin-right:10px"></i>YouTube Thumbnail Downloader</div>
+        <div class="tool-subtitle">Paste any YouTube URL and grab all available thumbnail resolutions instantly</div>
+      </div>
+
+      <div class="glass-card">
+        <label class="form-label">YouTube Video URL</label>
+        <div class="flex-row" style="gap:10px">
+          <input class="form-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="flex:1" />
+          <button class="btn btn-primary" onclick="fetchYTThumb()"><i class="fa-solid fa-magnifying-glass"></i> Fetch</button>
+        </div>
+        <div id="ytError" style="display:none;color:#dc2626;font-size:0.8rem;margin-top:8px;font-weight:500"></div>
+
+        <div class="yt-thumb-wrap" id="ytResults">
+          <div class="glass-card-sm" style="width:100%;text-align:center">
+            <div class="form-label" style="margin-bottom:14px">Available Thumbnails</div>
+            <div id="ytThumbGrid" class="grid-2" style="gap:16px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card mt-6" style="background:rgba(255,241,242,0.6);border-color:rgba(251,113,133,0.25)">
+        <p style="font-size:0.79rem;color:#9f1239;line-height:1.65">
+          <i class="fa-brands fa-youtube" style="color:#dc2626;margin-right:6px"></i>
+          <strong>Note:</strong> This tool fetches thumbnail images directly from YouTube's public image servers using the video ID extracted from your URL. No API key is required, and no data is sent to any third-party server. Thumbnails are served by <code>img.youtube.com</code>. Right-click any thumbnail to save it, or use the Download button.
+        </p>
+      </div>
+    </div>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<!-- Toast notification -->
+<div class="copy-toast" id="copyToast" style="display:none"></div>
+
+<script>
+/* ============================================================
+   NAVIGATION SPA LOGIC
+   ============================================================ */
+function switchTool(toolId, navEl) {
+  document.querySelectorAll('.tool-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tool-' + toolId).classList.add('active');
+  navEl.classList.add('active');
+  if (window.innerWidth <= 720) closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('mob-open');
+  document.getElementById('mobOverlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('mobOverlay').classList.remove('show');
+}
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+let toastTimeout;
+function showToast(msg, icon='fa-check-circle', color='#34d399') {
+  const t = document.getElementById('copyToast');
+  t.innerHTML = `<i class="fa-solid ${icon}" style="color:${color}"></i> ${msg}`;
+  t.style.display = 'flex';
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => { t.style.display = 'none'; }, 2400);
+}
+
+function copyToClipboard(text) {
+  if (!text || !text.trim()) { showToast('Nothing to copy!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+}
+
+/* ============================================================
+   1. IMAGE COMPRESSOR / RESIZER
+   ============================================================ */
+let origFile = null, origImg = null;
+
+document.getElementById('imgQuality').addEventListener('input', function(){
+  document.getElementById('qualityVal').textContent = this.value;
+});
+
+const dropZone = document.getElementById('imgDropZone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImageFile(f);
+});
+document.getElementById('imgFileInput').addEventListener('change', e => {
+  if (e.target.files[0]) loadImageFile(e.target.files[0]);
+});
+
+function loadImageFile(file) {
+  origFile = file;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      origImg = img;
+      document.getElementById('imgWidth').value = img.naturalWidth;
+      document.getElementById('imgHeight').value = img.naturalHeight;
+      document.getElementById('imgOriginalPreview').src = ev.target.result;
+      document.getElementById('origSize').textContent = formatBytes(file.size);
+      document.getElementById('imgControls').style.display = 'block';
+      document.getElementById('imgPreviewRow').style.display = 'none';
+      document.getElementById('imgDownloadRow').style.display = 'none';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Lock aspect ratio
+document.getElementById('imgWidth').addEventListener('input', function(){
+  if (document.getElementById('imgLockRatio').checked && origImg) {
+    const ratio = origImg.naturalHeight / origImg.naturalWidth;
+    document.getElementById('imgHeight').value = Math.round(this.value * ratio);
+  }
+});
+document.getElementById('imgHeight').addEventListener('input', function(){
+  if (document.getElementById('imgLockRatio').checked && origImg) {
+    const ratio = origImg.naturalWidth / origImg.naturalHeight;
+    document.getElementById('imgWidth').value = Math.round(this.value * ratio);
+  }
+});
+
+function processImage() {
+  if (!origImg) { showToast('Please upload an image first!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  const w = parseInt(document.getElementById('imgWidth').value) || origImg.naturalWidth;
+  const h = parseInt(document.getElementById('imgHeight').value) || origImg.naturalHeight;
+  const quality = parseInt(document.getElementById('imgQuality').value) / 100;
+  const fmt = document.getElementById('imgFormat').value;
+  const canvas = document.getElementById('imgCanvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(origImg, 0, 0, w, h);
+  canvas.toBlob(blob => {
+    document.getElementById('compSize').textContent = formatBytes(blob.size);
+    document.getElementById('imgPreviewRow').style.display = 'grid';
+    document.getElementById('imgDownloadRow').style.display = 'flex';
+    showToast('Image compressed successfully!');
+  }, fmt, quality);
+}
+
+function downloadImage() {
+  const canvas = document.getElementById('imgCanvas');
+  const fmt = document.getElementById('imgFormat').value;
+  const quality = parseInt(document.getElementById('imgQuality').value) / 100;
+  canvas.toBlob(blob => {
+    const ext = fmt === 'image/jpeg' ? 'jpg' : fmt === 'image/png' ? 'png' : 'webp';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'compressed.' + ext;
+    a.click(); URL.revokeObjectURL(a.href);
+    showToast('Image downloaded!');
+  }, fmt, quality);
+}
+
+function resetImageTool() {
+  origFile = null; origImg = null;
+  document.getElementById('imgFileInput').value = '';
+  document.getElementById('imgControls').style.display = 'none';
+  document.getElementById('imgPreviewRow').style.display = 'none';
+  document.getElementById('imgDownloadRow').style.display = 'none';
+  showToast('Reset complete', 'fa-rotate-left', '#a78bfa');
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(2) + ' MB';
+}
+
+/* ============================================================
+   2. PASSWORD GENERATOR
+   ============================================================ */
+const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const LOWER = 'abcdefghijklmnopqrstuvwxyz';
+const NUMS  = '0123456789';
+const SYMS  = '!@#$%^&*()-_=+[]{}|;:,.<>?/~`';
+const AMBIG = /[0OIl]/g;
+const pwHistory = [];
+
+function generatePassword() {
+  let charset = '';
+  if (document.getElementById('pwUpper').checked) charset += UPPER;
+  if (document.getElementById('pwLower').checked) charset += LOWER;
+  if (document.getElementById('pwNums').checked)  charset += NUMS;
+  if (document.getElementById('pwSymbols').checked) charset += SYMS;
+  if (document.getElementById('pwNoAmb').checked) charset = charset.replace(AMBIG,'');
+  if (!charset) { showToast('Select at least one character type!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+
+  const len = parseInt(document.getElementById('pwLen').value);
+  const arr = new Uint32Array(len);
+  crypto.getRandomValues(arr);
+  let pw = '';
+  for (let i = 0; i < len; i++) pw += charset[arr[i] % charset.length];
+
+  document.getElementById('pwOutput').textContent = pw;
+  renderStrength(pw);
+
+  pwHistory.unshift(pw);
+  if (pwHistory.length > 5) pwHistory.pop();
+  renderPwHistory();
+  showToast('Password generated!', 'fa-key', '#a78bfa');
+}
+
+function renderStrength(pw) {
+  let score = 0;
+  if (pw.length >= 12) score++;
+  if (pw.length >= 20) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[a-z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const wrap = document.getElementById('strengthWrap');
+  const fill = document.getElementById('strengthFill');
+  const label = document.getElementById('strengthLabel');
+  wrap.style.display = 'block';
+
+  const levels = [
+    {pct:16, bg:'#f87171', lbl:'Very Weak'},
+    {pct:32, bg:'#fb923c', lbl:'Weak'},
+    {pct:50, bg:'#fbbf24', lbl:'Fair'},
+    {pct:66, bg:'#34d399', lbl:'Good'},
+    {pct:82, bg:'#10b981', lbl:'Strong'},
+    {pct:100, bg:'linear-gradient(135deg,#a3e635,#10b981)', lbl:'Very Strong'},
+  ];
+  const lvl = levels[Math.min(score, 5)];
+  fill.style.width = lvl.pct + '%';
+  fill.style.background = lvl.bg;
+  label.textContent = '🔒 Strength: ' + lvl.lbl;
+}
+
+function renderPwHistory() {
+  const hist = document.getElementById('pwHistory');
+  const list = document.getElementById('pwHistoryList');
+  hist.style.display = 'block';
+  list.innerHTML = pwHistory.map(p => `
+    <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.8);border-radius:10px;padding:9px 14px;font-family:monospace;font-size:0.78rem;word-break:break-all;color:var(--text-dark)">
+      <span style="flex:1">${p}</span>
+      <button class="btn btn-glass" style="padding:5px 10px;font-size:0.7rem;flex-shrink:0" onclick="copyToClipboard('${p.replace(/'/g,"\\'")}')"><i class="fa-solid fa-copy"></i></button>
+    </div>
+  `).join('');
+}
+
+function copyPassword() {
+  const pw = document.getElementById('pwOutput').textContent;
+  if (pw.includes('Click')) { showToast('Generate a password first!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  copyToClipboard(pw);
+}
+
+/* ============================================================
+   3. WORD & CHARACTER COUNTER
+   ============================================================ */
+function updateWordCount() {
+  const text = document.getElementById('wcText').value;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const chars = text.length;
+  const charsNoSp = text.replace(/\s/g,'').length;
+  const lines = text === '' ? 0 : text.split('\n').length;
+  const paras = text.trim() === '' ? 0 : text.trim().split(/\n\s*\n/).filter(p=>p.trim()).length || 1;
+  const readSec = Math.round((words / 200) * 60);
+  const readStr = readSec < 60 ? readSec + ' sec' : Math.ceil(readSec/60) + ' min';
+
+  document.getElementById('wcWords').textContent = words.toLocaleString();
+  document.getElementById('wcChars').textContent = chars.toLocaleString();
+  document.getElementById('wcCharsNoSp').textContent = charsNoSp.toLocaleString();
+  document.getElementById('wcLines').textContent = lines.toLocaleString();
+  document.getElementById('wcParas').textContent = paras.toLocaleString();
+  document.getElementById('wcReadTime').textContent = readStr;
+
+  const kw = document.getElementById('wcKeyword').value.trim();
+  if (kw && text) {
+    const re = new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+    const matches = (text.match(re)||[]).length;
+    document.getElementById('kwFreq').style.display = 'inline-flex';
+    document.getElementById('kwCount').textContent = matches;
+  } else {
+    document.getElementById('kwFreq').style.display = 'none';
+  }
+}
+
+/* ============================================================
+   4. QR CODE GENERATOR
+   ============================================================ */
+let qrInstance = null;
+
+document.getElementById('qrColor').addEventListener('input', function(){
+  document.getElementById('qrColorHex').value = this.value;
+});
+
+function generateQR() {
+  const text = document.getElementById('qrInput').value.trim();
+  if (!text) { showToast('Enter text or URL first!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  const size = Math.min(Math.max(parseInt(document.getElementById('qrSize').value)||256, 64), 1024);
+  const color = document.getElementById('qrColor').value || '#2d1f4e';
+
+  const output = document.getElementById('qr-output');
+  output.innerHTML = '';
+  qrInstance = new QRCode(output, {
+    text, width: size, height: size,
+    colorDark: color, colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  document.getElementById('qrDownloadBtn').style.display = 'inline-flex';
+  showToast('QR Code generated!', 'fa-qrcode', '#a78bfa');
+}
+
+function downloadQR() {
+  const canvas = document.querySelector('#qr-output canvas');
+  if (!canvas) { showToast('Generate a QR code first!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'qrcode-vividvortex.png';
+  a.click();
+  showToast('QR Code downloaded!');
+}
+
+/* ============================================================
+   5. HEX <-> RGB COLOR CONVERTER
+   ============================================================ */
+const savedColors = [];
+
+function hexToRGB(hex) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+  if (hex.length !== 6) return null;
+  const n = parseInt(hex,16);
+  return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+}
+function rgbToHex(r,g,b) {
+  return '#' + [r,g,b].map(v=>Math.min(255,Math.max(0,v)).toString(16).padStart(2,'0')).join('');
+}
+function rgbToHSL(r,g,b) {
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}
+  else{
+    const d=max-min; s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){ case r:h=((g-b)/d+(g<b?6:0))/6;break; case g:h=((b-r)/d+2)/6;break; case b:h=((r-g)/d+4)/6;break; }
+  }
+  return {h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};
+}
+
+function updateColorUI(hex) {
+  const rgb = hexToRGB(hex);
+  if (!rgb) return;
+  const hsl = rgbToHSL(rgb.r,rgb.g,rgb.b);
+  document.getElementById('colorSwatch').style.background = hex;
+  document.getElementById('hexInput').value = hex;
+  document.getElementById('colorPickerHex').value = hex;
+  document.getElementById('rgbR').value = rgb.r;
+  document.getElementById('rgbG').value = rgb.g;
+  document.getElementById('rgbB').value = rgb.b;
+  document.getElementById('outHex').textContent = hex.toUpperCase();
+  document.getElementById('outRGB').textContent = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+  document.getElementById('outHSL').textContent = `hsl(${hsl.h}°,${hsl.s}%,${hsl.l}%)`;
+}
+
+function onColorPickerChange(val) { updateColorUI(val); }
+function onHexInput(val) {
+  if (/^#?[0-9a-fA-F]{6}$/.test(val)) updateColorUI(val.startsWith('#')?val:'#'+val);
+}
+function onRGBInput() {
+  const r=parseInt(document.getElementById('rgbR').value)||0;
+  const g=parseInt(document.getElementById('rgbG').value)||0;
+  const b=parseInt(document.getElementById('rgbB').value)||0;
+  updateColorUI(rgbToHex(r,g,b));
+}
+
+function saveColor() {
+  const hex = document.getElementById('outHex').textContent;
+  if (savedColors.includes(hex)) { showToast('Color already saved!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  savedColors.push(hex);
+  renderSavedSwatches();
+  showToast('Color saved!', 'fa-palette', '#a78bfa');
+}
+
+function renderSavedSwatches() {
+  const el = document.getElementById('savedSwatches');
+  el.innerHTML = savedColors.map((c,i) => `
+    <div title="${c}" style="position:relative;cursor:pointer" onclick="updateColorUI('${c}')">
+      <div style="width:44px;height:44px;border-radius:50%;background:${c};border:2.5px solid rgba(255,255,255,0.85);box-shadow:0 3px 12px rgba(0,0,0,0.12);transition:transform .2s" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform=''"></div>
+      <button onclick="event.stopPropagation();removeSavedColor(${i})" style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;border:none;border-radius:50%;background:#f87171;color:#fff;font-size:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+    </div>
+  `).join('');
+}
+
+function removeSavedColor(i) { savedColors.splice(i,1); renderSavedSwatches(); }
+
+// Init
+updateColorUI('#a78bfa');
+
+/* ============================================================
+   6. AGE CALCULATOR
+   ============================================================ */
+(function initAge(){
+  const today = new Date();
+  document.getElementById('refDateInput').value = today.toISOString().split('T')[0];
+})();
+
+function calculateAge() {
+  const dob = new Date(document.getElementById('dobInput').value);
+  const ref = new Date(document.getElementById('refDateInput').value);
+  if (!document.getElementById('dobInput').value) { showToast('Please select your date of birth!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+  if (dob > ref) { showToast('Date of birth must be before the reference date!', 'fa-triangle-exclamation', '#f59e0b'); return; }
+
+  let years  = ref.getFullYear()  - dob.getFullYear();
+  let months = ref.getMonth()     - dob.getMonth();
+  let days   = ref.getDate()      - dob.getDate();
+
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(ref.getFullYear(), ref.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) { years--; months += 12; }
+
+  const totalDays = Math.floor((ref - dob) / 86400000);
+  const totalHours = totalDays * 24;
+
+  // Next birthday
+  let next = new Date(ref.getFullYear(), dob.getMonth(), dob.getDate());
+  if (next <= ref) next.setFullYear(next.getFullYear()+1);
+  const daysToNext = Math.round((next-ref)/86400000);
+  const weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  document.getElementById('ageYears').textContent  = years;
+  document.getElementById('ageMonths').textContent = months;
+  document.getElementById('ageDays').textContent   = days;
+  document.getElementById('ageTotal').textContent  = totalDays.toLocaleString() + ' days';
+  document.getElementById('ageTotalH').textContent = totalHours.toLocaleString() + ' hrs';
+  document.getElementById('nextBirthday').textContent = daysToNext === 0 ? '🎉 Today!' : `in ${daysToNext} days`;
+  document.getElementById('dobWeekday').textContent = weekdays[dob.getDay()];
+  document.getElementById('ageResult').style.display = 'block';
+
+  const funFacts = [
+    `You've experienced approximately ${Math.round(totalDays/365.25*4)} leap days.`,
+    `Your heart has beaten about ${(totalHours*3600*70/1000000).toFixed(0)} million times.`,
+    `You've slept roughly ${Math.round(totalDays*0.33)} days of your life.`
+  ];
+  document.getElementById('ageExtra').innerHTML = '✨ ' + funFacts[Math.floor(Math.random()*funFacts.length)];
+  showToast('Age calculated!', 'fa-cake-candles', '#f472b6');
+}
+
+function resetAge() {
+  document.getElementById('dobInput').value = '';
+  document.getElementById('ageResult').style.display = 'none';
+}
+
+/* ============================================================
+   7. SCREEN RECORDER
+   ============================================================ */
+let mediaRecorder = null, recordedChunks = [], recTimerInterval = null, recStartTime = null;
+
+function updateRecBtn(recording) {
+  document.getElementById('btnStartRec').style.display = recording ? 'none' : 'inline-flex';
+  document.getElementById('btnStopRec').style.display  = recording ? 'inline-flex' : 'none';
+}
+
+function setRecStatus(text, state) {
+  document.getElementById('recStatusText').textContent = text;
+  const dot = document.getElementById('recDot');
+  dot.className = 'rec-dot' + (state==='recording'?' recording':state==='done'?' done':'');
+}
+
+function formatRecTime(ms) {
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  return String(m).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
+
+async function startRecording() {
+  recordedChunks = [];
+  document.getElementById('btnDownloadRec').style.display = 'none';
+  document.getElementById('btnDiscardRec').style.display = 'none';
+  document.getElementById('recPreview').style.display = 'none';
+
+  try {
+    const audioSel = document.getElementById('recAudio').value;
+    const displayStream = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: 30 },
+      audio: audioSel !== 'none'
+    });
+
+    let finalStream = displayStream;
+
+    if (audioSel === 'mic') {
+      try {
+        const micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const tracks = [...displayStream.getVideoTracks(), ...micStream.getAudioTracks()];
+        finalStream = new MediaStream(tracks);
+      } catch(e) { /* mic denied, use display only */ }
+    }
+
+    const countdown = document.getElementById('recCountdown').checked;
+    if (countdown) {
+      for (let i=3; i>=1; i--) {
+        setRecStatus(`Starting in ${i}…`, 'idle');
+        await new Promise(r=>setTimeout(r,1000));
+      }
+    }
+
+    const bitrate = parseInt(document.getElementById('recQuality').value);
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+      ? 'video/webm;codecs=vp9'
+      : MediaRecorder.isTypeSupported('video/webm')
+      ? 'video/webm'
+      : '';
+
+    const options = { videoBitsPerSecond: bitrate };
+    if (mimeType) options.mimeType = mimeType;
+
+    mediaRecorder = new MediaRecorder(finalStream, options);
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.onstop = finishRecording;
+
+    // Stop recording if user closes screen share
+    displayStream.getVideoTracks()[0].onended = () => { if(mediaRecorder && mediaRecorder.state!=='inactive') stopRecording(); };
+
+    mediaRecorder.start(1000);
+    recStartTime = Date.now();
+    recTimerInterval = setInterval(() => {
+      document.getElementById('recTimer').textContent = formatRecTime(Date.now()-recStartTime);
+    }, 500);
+
+    setRecStatus('Recording in progress…', 'recording');
+    updateRecBtn(true);
+
+  } catch(err) {
+    if (err.name === 'NotAllowedError') setRecStatus('Permission denied — please allow screen access', 'idle');
+    else setRecStatus('Could not start recording: ' + err.message, 'idle');
+    showToast('Recording failed: ' + err.name, 'fa-triangle-exclamation', '#f87171');
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+    mediaRecorder.stream.getTracks().forEach(t => t.stop());
+  }
+  clearInterval(recTimerInterval);
+  document.getElementById('recTimer').textContent = '';
+  updateRecBtn(false);
+}
+
+function finishRecording() {
+  const blob = new Blob(recordedChunks, { type: 'video/webm' });
+  const url  = URL.createObjectURL(blob);
+  const vid  = document.getElementById('recPreview');
+  vid.src = url; vid.style.display = 'block';
+  setRecStatus('Recording complete — preview below', 'done');
+  document.getElementById('btnDownloadRec').style.display = 'inline-flex';
+  document.getElementById('btnDiscardRec').style.display  = 'inline-flex';
+  showToast('Recording saved! Click Download to save.', 'fa-circle-check', '#34d399');
+}
+
+function downloadRecording() {
+  const blob = new Blob(recordedChunks, { type: 'video/webm' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'screen-recording-' + Date.now() + '.webm';
+  a.click(); URL.revokeObjectURL(a.href);
+  showToast('Recording downloaded!');
+}
+
+function discardRecording() {
+  recordedChunks = [];
+  const vid = document.getElementById('recPreview');
+  vid.src = ''; vid.style.display = 'none';
+  document.getElementById('btnDownloadRec').style.display = 'none';
+  document.getElementById('btnDiscardRec').style.display  = 'none';
+  setRecStatus('Ready to record — click Start Recording to begin', 'idle');
+  showToast('Recording discarded', 'fa-trash', '#f87171');
+}
+
+/* ============================================================
+   8. YOUTUBE THUMBNAIL DOWNLOADER
+   ============================================================ */
+function extractYTVideoId(url) {
+  url = url.trim();
+  const patterns = [
+    /(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+    /^([a-zA-Z0-9_-]{11})$/
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+function fetchYTThumb() {
+  const url = document.getElementById('ytUrl').value.trim();
+  const errEl = document.getElementById('ytError');
+  const resEl = document.getElementById('ytResults');
+  errEl.style.display = 'none'; resEl.style.display = 'none';
+  document.getElementById('ytThumbGrid').innerHTML = '';
+
+  const id = extractYTVideoId(url);
+  if (!id) {
+    errEl.textContent = '⚠ Could not extract a valid YouTube video ID from this URL. Please check and try again.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const resolutions = [
+    { label: 'Max Resolution (1280×720)', key: 'maxresdefault', w: 1280, h: 720 },
+    { label: 'High Quality (480×360)',     key: 'hqdefault',      w: 480,  h: 360 },
+    { label: 'Medium Quality (320×180)',   key: 'mqdefault',      w: 320,  h: 180 },
+    { label: 'Standard (120×90)',          key: 'default',        w: 120,  h: 90  },
+  ];
+
+  const grid = document.getElementById('ytThumbGrid');
+  resolutions.forEach(res => {
+    const imgUrl = `https://img.youtube.com/vi/${id}/${res.key}.jpg`;
+    const card = document.createElement('div');
+    card.className = 'glass-card-sm';
+    card.style.cssText = 'text-align:center;padding:14px';
+    card.innerHTML = `
+      <img src="${imgUrl}" alt="${res.label}" loading="lazy"
+           style="width:100%;border-radius:10px;margin-bottom:10px;box-shadow:0 4px 18px rgba(167,139,250,0.18);border:1.5px solid rgba(255,255,255,0.8)"
+           onerror="this.parentElement.style.display='none'" />
+      <div style="font-size:0.75rem;font-weight:600;color:var(--text-mid);margin-bottom:10px">${res.label}</div>
+      <div class="flex-row" style="justify-content:center;gap:8px">
+        <a class="btn btn-primary" style="font-size:0.75rem;padding:8px 14px" href="${imgUrl}" download="yt-thumb-${id}-${res.key}.jpg" target="_blank">
+          <i class="fa-solid fa-download"></i> Download
+        </a>
+        <button class="btn btn-glass" style="font-size:0.75rem;padding:8px 12px" onclick="copyToClipboard('${imgUrl}')">
+          <i class="fa-solid fa-link"></i>
+        </button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  resEl.style.display = 'flex';
+  showToast('Thumbnails loaded for video: ' + id, 'fa-youtube', '#dc2626');
+}
+
+// Allow pressing Enter on YT URL input
+document.getElementById('ytUrl').addEventListener('keydown', e => { if(e.key==='Enter') fetchYTThumb(); });
+document.getElementById('qrInput').addEventListener('keydown', e => { if(e.key==='Enter') generateQR(); });
+
+/* ============================================================
+   INITIAL STATE
+   ============================================================ */
+updateWordCount();
+</script>
+</body>
+</html>
