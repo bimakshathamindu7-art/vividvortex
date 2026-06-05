@@ -153,6 +153,7 @@ body {
   box-shadow: 0 4px 14px rgba(167,139,250,0.4);
 }
 .brand-logo .logo-icon i { color: #fff; font-size: 1rem; -webkit-text-fill-color: #fff; }
+.brand-logo .logo-icon svg { width: 22px; height: 22px; display: block; }
 .brand-sub { font-size: 0.68rem; color: var(--text-light); font-family: 'Poppins', sans-serif; margin-top: 2px; font-weight: 400; -webkit-text-fill-color: var(--text-light); }
 
 .nav-section-label {
@@ -633,7 +634,20 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); box-shado
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-logo">
-        <div class="logo-icon"><i class="fa-solid fa-vortex" style="font-size:.9rem"></i></div>
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="vvLogoGrad" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.72"/>
+              </linearGradient>
+            </defs>
+            <circle cx="18" cy="18" r="16" stroke="url(#vvLogoGrad)" stroke-width="2.2" opacity="0.55"/>
+            <path d="M10 12.5L18 26L26 12.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.2 12.5C15.2 10.1 17.4 9 20 9c5 0 9 4 9 9s-4 9-9 9c-2.6 0-4.8-1.1-6.8-3.5"
+                  stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>
+          </svg>
+        </div>
         <div>
           VividVortex
           <div class="brand-sub">Premium Utility Suite</div>
