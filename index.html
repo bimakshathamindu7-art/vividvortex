@@ -700,6 +700,29 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); box-shado
       <div class="nav-icon"><i class="fa-brands fa-youtube"></i></div>
       YT Thumbnail
     </div>
+
+    <div class="nav-section-label">Pages</div>
+
+    <div class="nav-item" data-tool="about" onclick="switchTool('about',this)">
+      <div class="nav-icon"><i class="fa-solid fa-circle-info"></i></div>
+      About Us
+    </div>
+    <div class="nav-item" data-tool="contact" onclick="switchTool('contact',this)">
+      <div class="nav-icon"><i class="fa-solid fa-envelope"></i></div>
+      Contact Us
+    </div>
+    <div class="nav-item" data-tool="privacy" onclick="switchTool('privacy',this)">
+      <div class="nav-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      Privacy Policy
+    </div>
+    <div class="nav-item" data-tool="terms" onclick="switchTool('terms',this)">
+      <div class="nav-icon"><i class="fa-solid fa-file-contract"></i></div>
+      Terms & Conditions
+    </div>
+    <div class="nav-item" data-tool="cookies" onclick="switchTool('cookies',this)">
+      <div class="nav-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+      Cookie Policy
+    </div>
   </nav>
 
   <!-- ===== MAIN CONTENT ===== -->
@@ -1112,8 +1135,122 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); box-shado
       </div>
     </div>
 
+  
+    <!-- ====================================================
+         9. ABOUT US
+         ==================================================== -->
+    <div class="tool-pane" id="tool-about">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-circle-info" style="font-size:1.5rem;margin-right:10px"></i>About Us</div>
+        <div class="tool-subtitle">A simple introduction to VividVortex</div>
+      </div>
+
+      <div class="glass-card">
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          VividVortex is a premium multi-utility web app built to help users do common tasks quickly in one place.
+          The tools are designed to run in the browser and keep the experience fast, clean, and private.
+        </p>
+        <div class="section-divider"></div>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          The project focuses on useful everyday tools such as image compression, password generation, QR creation,
+          color conversion, age calculation, screen recording, and YouTube thumbnail access.
+        </p>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         10. CONTACT US
+         ==================================================== -->
+    <div class="tool-pane" id="tool-contact">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-envelope" style="font-size:1.5rem;margin-right:10px"></i>Contact Us</div>
+        <div class="tool-subtitle">Reach out for support, feedback, or business inquiries</div>
+      </div>
+
+      <div class="glass-card">
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem;margin-bottom:14px">
+          Email: <a href="mailto:bimakshathamindu7@gmail.com" style="color:var(--accent-purple);font-weight:700;text-decoration:none">bimakshathamindu7@gmail.com</a>
+        </p>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          Use this email for support, site feedback, content requests, and partnership messages.
+        </p>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         11. PRIVACY POLICY
+         ==================================================== -->
+    <div class="tool-pane" id="tool-privacy">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-shield-halved" style="font-size:1.5rem;margin-right:10px"></i>Privacy Policy</div>
+        <div class="tool-subtitle">How information may be handled on this website</div>
+      </div>
+
+      <div class="glass-card">
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          This website is designed to process most tools directly in your browser whenever possible.
+          Files and text you use in the app are generally handled locally on your device unless a browser feature
+          or third-party service is required.
+        </p>
+        <div class="section-divider"></div>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          This site may use Google services such as Analytics and AdSense. These services may use cookies or similar
+          technologies to measure traffic, improve the service, and show relevant ads.
+        </p>
+        <div class="section-divider"></div>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          We do not intentionally collect personal information through the tools shown here. If you contact us by email,
+          we will receive the information you send in that message.
+        </p>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         12. TERMS & CONDITIONS
+         ==================================================== -->
+    <div class="tool-pane" id="tool-terms">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-file-contract" style="font-size:1.5rem;margin-right:10px"></i>Terms & Conditions</div>
+        <div class="tool-subtitle">Basic website usage terms</div>
+      </div>
+
+      <div class="glass-card">
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          By using this website, you agree to use the tools responsibly and lawfully. The site is provided as-is,
+          without guarantees of availability, accuracy, or fitness for a specific purpose.
+        </p>
+        <div class="section-divider"></div>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          You are responsible for any content you upload, generate, or download using the tools on this website.
+          We may update, remove, or change features at any time.
+        </p>
+      </div>
+    </div>
+
+    <!-- ====================================================
+         13. COOKIE POLICY
+         ==================================================== -->
+    <div class="tool-pane" id="tool-cookies">
+      <div class="tool-header">
+        <div class="tool-title"><i class="fa-solid fa-cookie-bite" style="font-size:1.5rem;margin-right:10px"></i>Cookie Policy</div>
+        <div class="tool-subtitle">How cookies may be used on this site</div>
+      </div>
+
+      <div class="glass-card">
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          Cookies or similar technologies may be used by Google services and by the browser itself to support analytics,
+          advertising, and basic site functionality.
+        </p>
+        <div class="section-divider"></div>
+        <p style="line-height:1.9;color:var(--text-mid);font-size:0.92rem">
+          You can manage cookies through your browser settings and through any available Google ad preferences controls.
+        </p>
+      </div>
+    </div>
+
   </main><!-- /main-content -->
 </div><!-- /app-shell -->
+
 
 <!-- Toast notification -->
 <div class="copy-toast" id="copyToast" style="display:none"></div>
@@ -1714,9 +1851,9 @@ function fetchYTThumb() {
            onerror="this.parentElement.style.display='none'" />
       <div style="font-size:0.75rem;font-weight:600;color:var(--text-mid);margin-bottom:10px">${res.label}</div>
       <div class="flex-row" style="justify-content:center;gap:8px">
-        <a class="btn btn-primary" style="font-size:0.75rem;padding:8px 14px" href="${imgUrl}" download="yt-thumb-${id}-${res.key}.jpg" target="_blank">
+        <button class="btn btn-primary" style="font-size:0.75rem;padding:8px 14px" onclick="downloadYTThumb('${imgUrl}','yt-thumb-${id}-${res.key}.jpg')">
           <i class="fa-solid fa-download"></i> Download
-        </a>
+        </button>
         <button class="btn btn-glass" style="font-size:0.75rem;padding:8px 12px" onclick="copyToClipboard('${imgUrl}')">
           <i class="fa-solid fa-link"></i>
         </button>
@@ -1726,6 +1863,26 @@ function fetchYTThumb() {
 
   resEl.style.display = 'flex';
   showToast('Thumbnails loaded for video: ' + id, 'fa-youtube', '#dc2626');
+}
+
+async function downloadYTThumb(url, filename) {
+  try {
+    const resp = await fetch(url, { mode: 'cors', cache: 'no-store' });
+    if (!resp.ok) throw new Error('Failed to fetch thumbnail');
+    const blob = await resp.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+    showToast('Thumbnail downloaded!');
+  } catch (err) {
+    console.error(err);
+    showToast('Download failed', 'fa-triangle-exclamation', '#f59e0b');
+  }
 }
 
 // Allow pressing Enter on YT URL input
